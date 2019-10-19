@@ -10,5 +10,3 @@ RUN cd /tmp && git clone https://github.com/asanchez75/sparql-kernel.git && cd /
 RUN jupyter sparqlkernel install --user
 RUN pip install graphviz
 RUN pip install ipython-sql
-RUN pip install psycopg2
-RUN pip install gastrodon
