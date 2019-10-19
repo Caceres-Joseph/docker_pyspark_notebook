@@ -1,12 +1,26 @@
-FROM jupyter/datascience-notebook
-MAINTAINER Adam Sanchez a.sanchez75@gmail.com
+FROM ubuntu:latest
+LABEL maintainer="masroorh"
 
-USER root
-RUN apt-get update && apt-get install -y graphviz git
+# Install OpenJDK 8
+RUN \
+  apt-get update && \
+  apt-get install -y openjdk-8-jdk && \
+  rm -rf /var/lib/apt/lists/*
 
-USER jovyan
-RUN cd /tmp && git clone https://github.com/asanchez75/sparql-kernel.git && cd /tmp/sparql-kernel && python setup.py install
+# Install Python
+RUN \
+    apt-get update && \
+    apt-get install -y python python-dev python-pip python-virtualenv && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN jupyter sparqlkernel install --user
-RUN pip install graphviz
-RUN pip install ipython-sql
+# Install PySpark and Numpy
+RUN \
+    pip install --upgrade pip && \
+    pip install numpy && \
+    pip install pyspark
+
+# Define working directory
+WORKDIR /data
+
+# Define default command
+CMD ["bash"]
